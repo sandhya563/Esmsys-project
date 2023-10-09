@@ -6,7 +6,7 @@ const knex = require("knex")({
   connection: {
     host: 'localhost',
     user: 'root',
-    password: 'Sandy@123',
+    password: 'Hello@123',
     database: 'Interview'
   }
 

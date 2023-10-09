@@ -1,4 +1,6 @@
 const knex = require('../database/dbconnection');
+const jwt = require("jsonwebtoken")
+
 
 // Get tbIEMP list of data
 const tbiempGetData = (req, res) => {
@@ -18,6 +20,8 @@ const tbiempGetData = (req, res) => {
 
 // Create new user account in tbIEMP table 
 const tbiempPostData = (req, res) => {
+    let reqData = req.body
+    const token = jwt.sign({Email: reqData.Email}, 'your-secret-key', { expiresIn: '1h' });
     var add_data = {
         "FirstName": req.body.FirstName,
         "LastName": req.body.LastName,
@@ -36,13 +40,17 @@ const tbiempPostData = (req, res) => {
                 status: "success",
                 statusCode: "statusCode 201",
                 message: "data inserted successfully",
-                data: add_data
+                data: add_data,
+                token: token
+
               });
         })
         .catch((err) => {
             console.log(err, "error");
             res.send({message: "Error", Error: err})
         })
+    // res.json({ token });
+
 }
 
 // Update the tbIEMP table data by id
